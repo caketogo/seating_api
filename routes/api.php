@@ -19,9 +19,13 @@ Route::prefix('v1')->group(function () {
     // Check provided credentials for matching logins
     Route::post('/login', [UsersController::class, 'login'])->name('api.v1.users.login');
     Route::post('/register', [UsersController::class, 'register'])->name('api.v1.users.register');
-    Route::post('/logout', [UsersController::class, 'logout'])->name('api.v1.users.logout');
+
     Route::prefix('event')->middleware('auth:api')->group(function () {
         Route::post('/', [EventController::class, 'create'])->name('api.v1.event.create');
 
+    });
+    Route::middleware('auth:api')->group(function () {
+
+        Route::get('/logout', [UsersController::class, 'logout'])->name('api.v1.users.logout');
     });
 });
