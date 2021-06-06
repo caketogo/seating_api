@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UsersController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix('v1')->group(function () {
+    // Check provided credentials for matching logins
+    Route::post('/login', [UsersController::class, 'login'])->name('api.v1.users.login');
+    Route::post('/register', [UsersController::class, 'register'])->name('api.v1.users.register');
+    Route::post('/logout', [UsersController::class, 'logout'])->name('api.v1.users.logout');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
 });
